@@ -213,6 +213,7 @@ RCT_EXPORT_METHOD(fetch:(NSString *)url obj:(NSDictionary *)obj callback:(RCTRes
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:u];
     
     AFSecurityPolicy *policy;
+    policy.validatesDomainName = false;
     BOOL pkPinning = [[obj objectForKey:@"pkPinning"] boolValue];
     BOOL disableAllSecurity = [[obj objectForKey:@"disableAllSecurity"] boolValue];
     
@@ -221,7 +222,6 @@ RCT_EXPORT_METHOD(fetch:(NSString *)url obj:(NSDictionary *)obj callback:(RCTRes
     // set policy (ssl pinning)
     if(disableAllSecurity){
         policy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
-        policy.validatesDomainName = false;
         policy.allowInvalidCertificates = true;
     }
     else if (pkPinning){
